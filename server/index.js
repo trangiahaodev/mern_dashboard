@@ -10,6 +10,10 @@ import generalRoutes from "./routes/general.js";
 import managementRoutes from "./routes/management.js";
 import salesRoutes from "./routes/sales.js";
 
+/* Data imports */
+import User from "./models/User.js";
+import { dataUser } from "./data/index.js";
+
 /* CONFIGURATION */
 dotenv.config(); // Set up environment variables
 const app = express(); // Create an instance of an Express application
@@ -32,12 +36,21 @@ app.use("/sales", salesRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 9000; // Set the port number
-mongoose.connect(process.env.MONGODB_URL); // Connect to MongoDB
-mongoose.connection.on("connected", () => {
-  // Listen to connection events
-  console.log(`Server running on: http://localhost:${PORT}`);
-});
-mongoose.connection.on("disconnected", () =>
-  // Listen to disconnection events
-  console.log("Server has been disconnected")
-);
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(async () => {
+    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+
+    /* ONLY ADD DATA ONE TIME */
+    const userCount = await User.countDocuments();
+    if (userCount === 0) {
+      // Check if the collection is empty
+      await User.insertMany(dataUser);
+      console.log("Initial data inserted successfully.");
+    } else {
+      console.log("Data already exists. Skipping insertion.");
+    }
+  })
+  .catch((error) => {
+    console.log(`${error} did not connect`);
+  });
