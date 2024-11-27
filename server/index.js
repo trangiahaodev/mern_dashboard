@@ -12,7 +12,9 @@ import salesRoutes from "./routes/sales.js";
 
 /* Data imports */
 import User from "./models/User.js";
-import { dataUser } from "./data/index.js";
+import Product from "./models/Product.js";
+import ProductStat from "./models/ProductStat.js";
+import { dataUser, dataProduct, dataProductStat } from "./data/index.js";
 
 /* CONFIGURATION */
 dotenv.config(); // Set up environment variables
@@ -42,14 +44,9 @@ mongoose
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
     /* ONLY ADD DATA ONE TIME */
-    const userCount = await User.countDocuments();
-    if (userCount === 0) {
-      // Check if the collection is empty
-      await User.insertMany(dataUser);
-      console.log("Initial data inserted successfully.");
-    } else {
-      console.log("Data already exists. Skipping insertion.");
-    }
+    // Product.insertMany(dataProduct);
+    // ProductStat.insertMany(dataProductStat);
+    // await User.insertMany(dataUser);
   })
   .catch((error) => {
     console.log(`${error} did not connect`);
