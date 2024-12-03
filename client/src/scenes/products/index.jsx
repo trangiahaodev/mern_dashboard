@@ -6,7 +6,6 @@ import {
   CardContent,
   Collapse,
   Button,
-  Typograph,
   Rating,
   useTheme,
   useMediaQuery,
