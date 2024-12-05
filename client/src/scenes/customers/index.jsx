@@ -2,8 +2,9 @@ import React from "react";
 import { Box, useTheme } from "@mui/material";
 import { useGetCustomersQuery } from "state/api";
 import Header from "components/Header";
-import { DataGrid } from "@mui/x-data-grid";
-import { styled } from "@mui/material/styles";
+// import { DataGrid } from "@mui/x-data-grid";
+// import { styled } from "@mui/material/styles";
+import DataGridWithCustomScrollBar from "components/DataGridWithCustomScrollBar";
 
 const Customers = () => {
   const theme = useTheme();
@@ -51,19 +52,19 @@ const Customers = () => {
   ];
 
   // Custom scrollbars in DataGrid
-  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-    "& ::-webkit-scrollbar": {
-      width: "6px",
-    },
-    "& ::-webkit-scrollbar-track": {
-      backgroundColor: theme.palette.background.alt,
-    },
-    "& ::-webkit-scrollbar-thumb": {
-      borderRadius: "10px",
-      boxShadow: "inset 0 0 6px rgba(0,0,0,.3)",
-      backgroundColor: theme.palette.secondary[200],
-    },
-  }));
+  // const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+  //   "& ::-webkit-scrollbar": {
+  //     width: "6px",
+  //   },
+  //   "& ::-webkit-scrollbar-track": {
+  //     backgroundColor: theme.palette.background.alt,
+  //   },
+  //   "& ::-webkit-scrollbar-thumb": {
+  //     borderRadius: "10px",
+  //     boxShadow: "inset 0 0 6px rgba(0,0,0,.3)",
+  //     backgroundColor: theme.palette.secondary[200],
+  //   },
+  // }));
 
   return (
     <Box m="1.5rem 2.5rem">
@@ -95,7 +96,7 @@ const Customers = () => {
             color: `${theme.palette.secondary[200]} !important`,
           },
         }}>
-        <StyledDataGrid
+        <DataGridWithCustomScrollBar
           loading={isLoading || !data}
           getRowId={(row) => row._id}
           rows={data || []}
